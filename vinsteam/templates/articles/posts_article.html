@@ -1,0 +1,35 @@
+
+<div class="news_title">
+  <div class="title_index">
+    <h2>Бурение</h2>
+  </div>
+  <button class="btn_mini">
+    <a href="{% url 'articles:post_list_by_category' category_slug='burenie' %}"><p>Наши услуги</p></a>
+  </button>
+</div>
+<div class="news_index_main uslugi_main">
+
+  {% for post in posts %}
+  <div class="news_item_main">
+    <div class="news_item_title">
+      <p><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></p>
+    </div>
+    {% if post.image %}
+    <a href="{{ post.get_absolute_url }}">
+      <div class="news_item_img">
+        <img src="{{ post.image.url }}" alt="{{ post.title }}">
+      </div>
+    </a>
+
+    
+    {% endif %}
+    
+    <div class="news_item_desc">
+      {{ post.main_content_block.content_ckeditor|safe }}
+    </div>
+    <a href="{{ post.get_absolute_url }}" class="news_btn">
+      <p>Подробнее</p>
+    </a>
+  </div>
+  {% endfor %}
+</div>

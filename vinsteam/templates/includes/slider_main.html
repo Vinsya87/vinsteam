@@ -1,0 +1,33 @@
+<div class="slider_top_main">
+
+  {% for slide in sliders %}
+  <div class="slider_top_item">
+    <div class="slider_top_item_img">
+      {% if slide.image %}
+      
+      <div class="slider_decstop_item">
+      <img src="{{ slide.image.url }}" alt="{{ slide.title }}" />
+      </div>
+      {% endif %}
+
+      {% if slide.image_mobile %}
+      <div class="slider_mobile_item">
+        <img src="{{ slide.image_mobile.url }}" alt="{{ slide.title }}" />
+      </div>
+      {% endif %}
+    </div>
+    <div class="slider_post">
+      {% if slide.header_type == 'h1' %}
+        <h1>{{ slide.title }}</h1>
+    {% else %}
+        <h2>{{ slide.title }}</h2>
+    {% endif %}
+    <p>{{ slide.text }}</p>
+    {% if slide.link %}
+    <button class="btn_main"><a href="{{ slide.link }}">Перейти</a></button>
+    {% endif %}
+      
+    </div>
+  </div>
+  {% endfor %}
+</div>

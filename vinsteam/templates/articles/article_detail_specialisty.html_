@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% load thumbnail %}
+{% block content %}
+
+{% include 'includes/breadcrumbs.html' %}
+<div class="container">
+  <div class="post_article">
+    <article class="news_post news_post_special">
+      <div class="desc_special_main">
+        <h1>{{ post.title }}</h1>
+        <div class="short_post">
+          <span>Должность: </span>
+          <p>{{post.short_description}}</p>
+        </div>
+
+        {% if post.image %}
+        {% thumbnail post.image "300" as im %}
+        <a href="{{ post.get_absolute_url }} " class="specialist_image">
+          <img class="image-detail" src="{{ im.url }}" alt="{{ post.title }}">
+        </a>
+        {% endthumbnail %}
+        {% endif %}
+        <p>{{ post.content_ckeditor|safe }}</p>
+      </div>
+    </article>
+  </div>
+
+</div>
+{% endblock %}

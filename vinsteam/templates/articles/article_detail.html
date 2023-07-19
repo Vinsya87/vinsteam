@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'includes/breadcrumbs.html' %}
+<div class="container">
+  <div class="post_article">
+    {% if post.image %}
+    <article class="news_post news_post_image">
+
+      <div class="image_special_main">
+
+        <img src="{{ post.image.url }}" alt="{{ post.title }}">
+
+      </div>
+      <div class="desc_special_main">
+        <h1>{{ post.title }}</h1>
+
+        {{ post.content_ckeditor|safe }}
+      </div>
+    </article>
+    {% else %}
+    <article class="news_post">
+      <h1>{{ post.title }}</h1>
+      {{ post.content_ckeditor|safe }}
+    </article>
+    {% endif %}
+
+  </div>
+
+</div>
+<div class="special_top">
+  <div class="container">
+
+    {% for block in post.content_blocks.all %}
+    {% if block.number == 201 %}
+    {{ block.content_ckeditor|safe }}
+
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

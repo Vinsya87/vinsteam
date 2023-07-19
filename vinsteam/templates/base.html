@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ru">
+{% load static %}
+{% load cache %}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="icon" href="{% static 'img/favicon.svg' %}" type="image/svg+xml">
+  <link rel="stylesheet" href="{% static 'css/slick.css' %}">
+  <link rel="stylesheet" href="{% static 'css/main.css' %}?v=2">
+  <link rel="stylesheet" href="{% static 'css/main-2.css' %}?v=2">
+  <link rel="stylesheet" href="{% static 'css/main-media.css' %}?v=2">
+  <link rel="stylesheet" href="{% static 'css/main-media-2.css' %}?v=2">
+
+  {% if meta_tags.meta_title %}
+  <title>{{ meta_tags.meta_title }}</title>
+  {% else %}
+  <title>{{ meta_title }}</title>
+  {% endif %}
+  {% if meta_tags.meta_description %}
+  <meta name="description" content="{{meta_tags.meta_description}}">
+  {% else %}
+  <meta name="description" content="{{meta_description}}">
+  {% endif %}
+
+</head>
+
+<body class="" id="body_id">
+  {% if user.is_staff %}
+  <div class="admin-panel">
+    <div class="container">
+      <a href="{% url 'main_url:clear_cache' %}">Сбросить весь кеш</a>
+      {% if page %}
+      <a target="_blank" href="{% url 'admin:articles_page_change' page.id %}">Ссылка на страницу</a>
+
+      {% endif %}
+      {% if post %}
+      <a target="_blank" href="{% url 'admin:articles_post_change' post.id %}">Ссылка на запись</a>
+
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+  <!-- Offcanvas-->
+  {% cache 80000 Offcanvas %}
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <a href="/" class="header_item">
+        <p>Главная</p>
+      </a>
+      {% for menu_item in mobile_menu_items %}
+      <div class="header_item_div mobile_header_item">
+        {% if menu_item.category %}
+        <div class="div_item_mob_cat">
+          <a class="header_item">
+            <p>{{ menu_item.title }}</p>
+          </a>
+          <div class="open_cat">
+
+            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd"
+                d="M1.0876 0.837522C1.31541 0.609716 1.68475 0.609716 1.91256 0.837522L5.00008 3.92504L8.0876 0.837522C8.31541 0.609716 8.68476 0.609716 8.91256 0.837522C9.14037 1.06533 9.14037 1.43467 8.91256 1.66248L5.41256 5.16248C5.18475 5.39029 4.81541 5.39029 4.5876 5.16248L1.0876 1.66248C0.859797 1.43467 0.859797 1.06533 1.0876 0.837522Z"
+                fill="#828282" />
+            </svg>
+          </div>
+        </div>
+        <ul class="header_item_ul">
+          {% for post in menu_item.category.posts.all %}
+          <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <a href="/{{ menu_item.url }}" class="header_item">
+          <p>{{ menu_item.title }}</p>
+        </a>
+        {% endif %}
+      </div>
+
+
+      {% endfor %}
+      <div class="social_main_index">
+        {% if config.telegram and config.telegram_img %}
+        <a href="{{config.telegram}}"><img src="{{config.telegram_img.url}}" alt=""></a>
+        {% endif %}
+        {% if config.whatsapp and config.whatsapp_img %}
+        <a href="{{config.whatsapp}}"><img src="{{config.whatsapp_img.url}}" alt=""></a>
+        {% endif %}
+        {% if config.vk and config.vk_img %}
+        <a href="{{config.vk}}"><img src="{{config.vk_img.url}}" alt=""></a>
+        {% endif %}
+      </div>
+      <div class="phone_top_main">
+        {% if config.phone_number and config.phone_url %}
+        <p><a href="tel:{{ config.phone_url }}">{{ config.phone_number }}</a></p>
+
+        {% endif %}
+        {% if config.phone_number_two and config.phone_two_url %}
+        <p><a href="tel:{{ config.phone_two_url }}">{{ config.phone_number_two }}</a></p>
+
+        {% endif %}
+        <span class="write_me">Написать сообщение</span>
+      </div>
+    </div>
+  </div>
+  {% endcache %}
+  <!-- Удачно отправлено -->
+  <div class="modal_reg" id="write_ok">
+    <div class="modal_dialog" role="document">
+      <div class="modal_content">
+        <div class="close_modal">
+          <span>&times;</span>
+        </div>
+        <div class="modal_header">
+          <h5 class="modal_title" id="authModalLabel">Cообщение</h5>
+        </div>
+        <div class="modal_body">
+          <p class="write_ok">Ваше сообщение успешно отправлено. В ближайшее время, мы с вами свяжемся, спасибо!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Модальное написать -->
+  <div class="modal_reg" id="write_me2">
+    <div class="modal_dialog" role="document">
+      <div class="modal_content">
+        <div class="close_modal">
+          <span>&times;</span>
+        </div>
+        <div class="modal_header">
+          <h5 class="modal_title" id="authModalLabel">Написать сообщение</h5>
+
+        </div>
+        <div class="modal_body">
+          <form id="writeForm" action="{% url 'mail_post:send_email' %}" method="post">
+            {% csrf_token %}
+            <div class="form_group form_group_input">
+              <input placeholder="Ваше имя *" type="text" class="form_control" id="write_name" name="username" required
+                autocomplete="name">
+            </div>
+            <div class="form_group form_group_input">
+              <input placeholder="E-mail" type="email" class="form_control" id="write_email" name="email" autocomplete="email">
+            </div>
+            <div class="form_group form_group_input">
+              <input placeholder="Телефон *" type="tel" class="form_control" id="write_tel" name="tel" autocomplete="tel" required>
+            </div>
+            <div class="form_group">
+              <textarea class="form_control" placeholder="Уточните ваши пожелания, по времени или причину обращения *"
+                id="floatingTextarea2" name="message" style="height: 100px" required></textarea>
+            </div>
+            <div class="policy_form">
+              <input type="checkbox" name="privacy_policy" id="privacy_policy_checkbox" required>
+              <label for="privacy_policy_checkbox">Я согласен с <a href="/policy">политикой безопасности</a></label>
+            </div>
+
+            <!-- Кнопки для авторизации и регистрации -->
+            <div class="form_group form_group_btn">
+              <button type="submit" class="btn_main btn_main_modal">
+                <p>Отправить</p>
+              </button>
+            </div>
+            <div class="error_login2">
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Модальное написать ---2 -->
+  <div class="modal_reg" id="write_me">
+    <div class="modal_dialog" role="document">
+      <div class="modal_content">
+        <div class="close_modal">
+          <span>&times;</span>
+        </div>
+        <div class="modal_header">
+          <h5 class="modal_title" id="authModalLabel">Написать сообщение</h5>
+
+        </div>
+        <div class="modal_body">
+
+          <form id="writeForm_2" action="{% url 'mail_post:send_email_two' %}" method="post">
+            {% csrf_token %}
+            {{ form_feed.as_p }}
+            <div class="policy_form">
+              <input type="checkbox" name="privacy_policy" id="privacy_policy_checkbox_2" required>
+              <label for="privacy_policy_checkbox_2">Я согласен с <a href="/policy">политикой безопасности</a></label>
+            </div>
+
+            <button class="btn_main btn_main_modal" type="submit"><p>Отправить</p></button>
+            <div class="error_login">
+              {% for field, error_list in form.errors.items %}
+                {% for error in error_list %}
+                  <span class="field-error">{{ error }}</span>
+                {% endfor %}
+              {% endfor %}
+            </div>
+          </form>
+          
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Модальное отзыв отправлен -->
+  <div class="modal_reg " id="review_ok">
+    <div class="modal_dialog" role="document">
+      <div class="modal_content">
+        <div class="close_modal">
+          <span>&times;</span>
+        </div>
+        <div class="modal_header">
+          <h5 class="modal_title" id="authModalLabel">Cообщение</h5>
+        </div>
+        <div class="modal_body">
+          <p class="write_ok">Ваш отзыв успешно отправлен! Спасибо большое! Ваше мнение очень важно для нас.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Модальное написать отзыв -->
+  {% if review_form %}
+  <div class="modal_reg" id="review_write">
+    <div class="modal_dialog" role="document">
+      <div class="modal_content">
+        <div class="close_modal">
+          <span>&times;</span>
+        </div>
+        <div class="modal_header">
+          <h5 class="modal_title" id="authModalLabel">Написать отзыв</h5>
+
+        </div>
+        <div class="modal_body">
+          <form id="review-form" method="post" action="{% url 'reviews:add_review' %}">
+            {% csrf_token %}
+            {{ review_form.as_p }}
+            <div class="policy_form">
+              <input type="checkbox" name="privacy_policy" id="privacy_policy_checkbox_3" required>
+              <label for="privacy_policy_checkbox_3">Я согласен с <a href="/policy">политикой безопасности</a></label>
+            </div>
+            <button type="submit" class="btn_main btn_main_modal">Отправить</button>
+          </form>
+          <div id="review-form-errors">
+            {{ form.non_field_errors }}
+            {% for field in form %}
+            {% if field.errors %}
+            {% for error in field.errors %}
+            <p>{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+
+
+  <div class="body_main">
+    {% cache 80000 header_down_main %}
+    <header>
+      {% include 'includes/header.html' %}
+    </header>
+    {% endcache %}
+    <main>
+
+      {% block content %}
+      {% endblock %}
+
+    </main>
+  </div>
+
+  {% cache 80000 footer %}
+  <footer class="">
+    {% include 'includes/footer.html' %}
+  </footer>
+  {% endcache %}
+  <script src="{% static 'js/jquery3-6-0.min.js' %}" ></script>
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}" ></script>
+
+
+  <script src="{% static 'js/slick.min.js' %}" ></script>
+  <script type="text/javascript" src="https://unpkg.com/default-passive-events"></script>
+
+  <script src="{% static 'js/main.js' %}?v=2" defer></script>
+
+
+
+
+</body>

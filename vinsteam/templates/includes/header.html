@@ -1,0 +1,169 @@
+<!-- подключение статик файлов -->
+{% load static %}
+
+
+
+<div class="header_down_main header_down_main_none">
+  <div class="container header_items">
+
+    <a href="/" class="header_item">
+      <p>Главная</p>
+    </a>
+    {% for menu_item in other_menu_items %}
+    <div class="header_item_div header_item_div_main">
+      {% if menu_item.category %}
+      <a href="{{ menu_item.category.get_absolute_url }}" class="header_item">
+        <p>{{ menu_item.title }}</p>
+      </a>
+      <ul class="wwwww header_item_ul">
+        {% for post in menu_item.category.posts.all %}
+        {% if post.is_published %}
+        <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
+        {% endif %}
+        {% endfor %}
+      </ul>
+      {% else %}
+      <a href="/{{ menu_item.url }}" class="header_item qqqqq">
+        <p>{{ menu_item.title }}</p>
+      </a>
+      {% endif %}
+    </div>
+    {% endfor %}
+
+    <div class="phone_social_top">
+      <span class="write_me">Заказать звонок</span>
+    </div>
+  </div>
+</div>
+
+
+<div class="">
+  <header>
+    <div class=" container header_top_main">
+      <div class="logo_main">
+        {% if config.logo %}
+        <a href="/"><img src="{{ config.logo.url }}" alt="">
+          {% endif %}
+
+          <div class="logo_main_p">
+            <svg width="211" height="25" viewBox="0 0 211 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M0.9 8.4V-1.43051e-06H34.47V8.4L26.64 7.32V4.26H21.6V21H13.77V4.26H8.73V7.32L0.9 8.4ZM35.6004 21V5.1H62.7504V21H35.6004ZM43.1004 17.1H55.2504V9H43.1004V17.1ZM68.1492 21V4.38L85.8492 9.3L103.549 4.38V21H93.1992V17.1H96.0492V11.25L89.5992 13.05V21H82.0992V13.05L75.6492 11.25V17.1H78.4992V21H68.1492ZM106.26 4.26V-1.43051e-06H141.9V8.25L135.03 10.5L141.9 12.75V21H110.73V4.26H106.26ZM118.56 16.74H134.07V15.21L128.16 12.63H118.56V16.74ZM118.56 8.37H128.16L134.07 5.79V4.26H118.56V8.37ZM147.309 21V5.1H174.459V21H147.309ZM154.809 17.1H166.959V9H154.809V17.1ZM177.158 24.75V17.1H181.958L185.558 9H181.808V5.1H206.858V17.1H210.608V21H184.658V24.75H177.158ZM189.758 17.1H199.358V9H193.358L189.758 17.1Z"
+                fill="black" />
+            </svg>
+            <p>Бурение скважин в Томске</p>
+          </div>
+        </a>
+      </div>
+      <div class="locale_main">
+        <span><svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M5.89298 5.80967C6.5181 5.18454 7.36595 4.83335 8.25 4.83335C9.13406 4.83335 9.9819 5.18454 10.607 5.80967C11.2321 6.43479 11.5833 7.28263 11.5833 8.16669C11.5833 9.05074 11.2321 9.89859 10.607 10.5237C9.9819 11.1488 9.13406 11.5 8.25 11.5C7.36595 11.5 6.5181 11.1488 5.89298 10.5237C5.26786 9.89859 4.91667 9.05074 4.91667 8.16669C4.91667 7.28263 5.26786 6.43479 5.89298 5.80967ZM8.25 6.50002C7.80798 6.50002 7.38405 6.67562 7.07149 6.98818C6.75893 7.30074 6.58334 7.72466 6.58334 8.16669C6.58334 8.60872 6.75893 9.03264 7.07149 9.3452C7.38405 9.65776 7.80798 9.83335 8.25 9.83335C8.69203 9.83335 9.11596 9.65776 9.42852 9.3452C9.74108 9.03264 9.91667 8.60872 9.91667 8.16669C9.91667 7.72466 9.74108 7.30074 9.42852 6.98818C9.11596 6.67562 8.69203 6.50002 8.25 6.50002Z"
+              fill="#BFBFBF" />
+            <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M8.25 2.3336C7.09629 2.3336 5.96849 2.67571 5.00921 3.31667C4.04993 3.95763 3.30225 4.86866 2.86073 5.93454C2.41921 7.00043 2.30368 8.1733 2.52873 9.30485C2.75378 10.4364 3.30929 11.4757 4.12502 12.2915L7.66146 15.8271C7.81772 15.9832 8.02955 16.0709 8.25042 16.0709C8.47129 16.0709 8.68312 15.9832 8.83938 15.8271L12.3749 12.2916C13.1907 11.4758 13.7462 10.4364 13.9713 9.30485C14.1963 8.1733 14.0808 7.00043 13.6393 5.93454C13.1978 4.86866 12.4501 3.95763 11.4908 3.31667C10.5315 2.67571 9.40372 2.3336 8.25 2.3336ZM4.08327 1.93088C5.31663 1.10679 6.76666 0.666931 8.25 0.666931C9.73335 0.666931 11.1834 1.10679 12.4167 1.93088C13.6501 2.75498 14.6114 3.92629 15.1791 5.29672C15.7467 6.66714 15.8953 8.17512 15.6059 9.62997C15.3166 11.0848 14.6023 12.4212 13.5534 13.4701L10.0176 17.0059C9.54882 17.4742 8.91302 17.7376 8.25042 17.7376C7.58782 17.7376 6.95231 17.4745 6.48355 17.0062L2.94665 13.4702C1.8978 12.4213 1.18344 11.0848 0.894086 9.62997C0.604728 8.17512 0.753275 6.66714 1.32094 5.29672C1.88861 3.92629 2.84991 2.75498 4.08327 1.93088Z"
+              fill="#BFBFBF" />
+          </svg>
+        </span>
+        {% if config.address %}
+        <p>{{ config.address }}</p>
+        {% endif %}
+      </div>
+      <div class="social_main_index">
+        {% if config.email_site %}
+        <a href="mailto:{{config.email_site}}"><span class="email_span">@ </span> {{config.email_site}}</a>
+        {% endif %}
+      </div>
+      <div class="phone_top_main">
+        <div class="social_main_index">
+          {% if config.telegram and config.telegram_img %}
+          <a href="{{config.telegram}}"><img src="{{config.telegram_img.url}}" alt=""></a>
+          {% endif %}
+          {% if config.whatsapp and config.whatsapp_img %}
+          <a href="{{config.whatsapp}}"><img src="{{config.whatsapp_img.url}}" alt=""></a>
+          {% endif %}
+          {% if config.vk and config.vk_img %}
+          <a href="{{config.vk}}"><img src="{{config.vk_img.url}}" alt=""></a>
+          {% endif %}
+        </div>
+        <div class="phone_social_my">
+          {% if config.phone_number and config.phone_url %}
+          <p><a href="tel:{{ config.phone_url }}">{{ config.phone_number }}</a></p>
+
+          {% endif %}
+          {% if config.phone_number_two and config.phone_two_url %}
+          <p><a href="tel:{{ config.phone_two_url }}">{{ config.phone_number_two }}</a></p>
+
+          {% endif %}
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="header_down_main">
+
+      <div class="container header_items">
+        <a href="/" class="header_item">
+          <p>Главная</p>
+        </a>
+
+        {% for menu_item in main_menu_items %}
+        <div class="header_item_div header_item_div_main">
+          {% if menu_item.category %}
+          <a href="{{ menu_item.category.get_absolute_url }}" class="header_item">
+            <p>{{ menu_item.title }}</p>
+          </a>
+          <ul class="wwwww header_item_ul">
+            {% for post in menu_item.category.posts.all %}
+            {% if post.is_published %}
+            <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
+            {% endif %}
+            {% endfor %}
+          </ul>
+          {% else %}
+          <a href="/{{ menu_item.url }}" class="header_item qqqqq">
+            <p>{{ menu_item.title }}</p>
+          </a>
+          {% endif %}
+        </div>
+        {% endfor %}
+
+        <div class="phone_social_top">
+          <span class="write_me">Заказать звонок</span>
+        </div>
+      </div>
+      <div class="container header_items_mobile_main">
+        <div class="header_items_mobile btn" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+          aria-controls="offcanvasExample">
+          <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M0.25 1.5C0.25 1.08579 0.585786 0.75 1 0.75H13C13.4142 0.75 13.75 1.08579 13.75 1.5C13.75 1.91421 13.4142 2.25 13 2.25H1C0.585786 2.25 0.25 1.91421 0.25 1.5Z"
+              fill="#FA2F35" />
+            <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M0.25 6C0.25 5.58579 0.585786 5.25 1 5.25H13C13.4142 5.25 13.75 5.58579 13.75 6C13.75 6.41421 13.4142 6.75 13 6.75H1C0.585786 6.75 0.25 6.41421 0.25 6Z"
+              fill="#FA2F35" />
+            <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M0.25 10.5C0.25 10.0858 0.585786 9.75 1 9.75H13C13.4142 9.75 13.75 10.0858 13.75 10.5C13.75 10.9142 13.4142 11.25 13 11.25H1C0.585786 11.25 0.25 10.9142 0.25 10.5Z"
+              fill="#FA2F35" />
+          </svg>
+        </div>
+        <a href="/" class="logo_main_p">
+          <svg width="211" height="25" viewBox="0 0 211 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M0.9 8.4V-1.43051e-06H34.47V8.4L26.64 7.32V4.26H21.6V21H13.77V4.26H8.73V7.32L0.9 8.4ZM35.6004 21V5.1H62.7504V21H35.6004ZM43.1004 17.1H55.2504V9H43.1004V17.1ZM68.1492 21V4.38L85.8492 9.3L103.549 4.38V21H93.1992V17.1H96.0492V11.25L89.5992 13.05V21H82.0992V13.05L75.6492 11.25V17.1H78.4992V21H68.1492ZM106.26 4.26V-1.43051e-06H141.9V8.25L135.03 10.5L141.9 12.75V21H110.73V4.26H106.26ZM118.56 16.74H134.07V15.21L128.16 12.63H118.56V16.74ZM118.56 8.37H128.16L134.07 5.79V4.26H118.56V8.37ZM147.309 21V5.1H174.459V21H147.309ZM154.809 17.1H166.959V9H154.809V17.1ZM177.158 24.75V17.1H181.958L185.558 9H181.808V5.1H206.858V17.1H210.608V21H184.658V24.75H177.158ZM189.758 17.1H199.358V9H193.358L189.758 17.1Z"
+              fill="black" />
+          </svg>
+          <p>Бурение скважин в Томске</p>
+        </a>
+        <span class="write_me">Заказать звонок</span>
+      </div>
+
+
+
+
+    </div>
+
+  </header>
+
+</div>

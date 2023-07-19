@@ -1,0 +1,23 @@
+<div class="breadcrumbs_main container">
+  <ul>
+    {% if category %}
+    {% if category.parent %}
+    <li><a href="{% url 'catalog_url:category_detail' category.parent.slug %}">{{ category.parent.name }}</a></li>
+    {% endif %}
+    {% if object.category.parent %}
+    <li><a
+        href="{% url 'catalog_url:category_detail' object.category.parent.slug %}">{{object.category.parent.name}}</a>
+    </li>
+    {% endif %}
+    {% if object.category %}
+    <li><a href="{% url 'catalog_url:category_detail' object.category.slug %}">{{object.category.name}}</a></li>
+    {% endif %}
+    <li>{{ object.name }}</li>
+    {% endif %}
+    {% if post %}
+    <li><a href="{% url 'articles:post_list_by_category' post.category.slug %}">{{ post.category.name }}</a></li>
+    <li>{{ post.title }}</li>
+    {% endif %}
+    
+  </ul>
+</div>

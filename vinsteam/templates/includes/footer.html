@@ -1,0 +1,54 @@
+{% load tz %}
+
+<div class="container">
+
+  <div class="copy_footer">
+    <p class="copy_date">
+      {% now "Y" as current_year %}
+      {{ current_year }} © ТомВод
+    </p>
+    <p class="copy_all">
+      Все права защищены
+    </p>
+  </div>
+  <div class="header_items">
+    {% for menu_item in footer_menu_items %}
+    {% if menu_item.category %}
+    <a href="{{ menu_item.category.get_absolute_url }}" class="header_item">
+      <p>{{ menu_item.title }}</p>
+    </a>
+    {% else %}
+    <a href="/{{ menu_item.url }}" class="header_item qqqqq">
+      <p>{{ menu_item.title }}</p>
+    </a>
+    {% endif %}
+    {% endfor %}
+  </div>
+  <div class="footer_contacts_main">
+    {% if config.phone_number and config.phone_url %}
+    <a href="tel:{{ config.phone_url }}" class="phone_top_main">
+      <p>{{ config.phone_number }}</p>
+    </a>
+    {% endif %}
+    {% if config.phone_number_two and config.phone_two_url %}
+    <a href="tel:{{ config.phone_two_url }}" class="phone_top_main">
+      <p>{{ config.phone_number_two }}</p>
+    </a>
+    {% endif %}
+
+    <div class="social_main_index">
+      {% if config.telegram and config.telegram_img %}
+      <a href="{{config.telegram}}"><img src="{{config.telegram_img.url}}" alt=""></a>
+      {% endif %}
+      {% if config.whatsapp and config.whatsapp_img %}
+      <a href="{{config.whatsapp}}"><img src="{{config.whatsapp_img.url}}" alt=""></a>
+      {% endif %}
+      {% if config.vk and config.vk_img %}
+      <a href="{{config.vk}}"><img src="{{config.vk_img.url}}" alt=""></a>
+      {% endif %}
+    </div>
+
+  </div>
+
+
+</div>

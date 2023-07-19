@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <div class="post_article">
+    <h1>{{ category.name }}</h1>
+    {% for post in posts %}
+    <div class="post_article_item post_article_item_special">
+      {% if post.image %}
+      <a href="{{ post.get_absolute_url }} " class="post_item_image">
+        <img src="{{ post.image.url }}" alt="{{ post.title }}">
+      </a>
+      {% endif %}
+      <div class="post_special_desc">
+        <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+        <p class="special_short">{{ post.short_description }}</p>
+        <p class="desc_art_post">
+          {{ post.content_ckeditor|truncatechars:500|safe }}
+        </p>
+        <div class="news_btn_main">
+          <a href="{{ post.get_absolute_url }}" class="news_btn">
+            <p>Подробнее</p>
+          </a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}

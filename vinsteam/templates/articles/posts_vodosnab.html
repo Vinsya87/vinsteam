@@ -1,0 +1,37 @@
+
+<div class="news_title">
+  <div class="title_index">
+    <h2>Прочие услуги</h2>
+  </div>
+  <button class="btn_mini">
+    <a href="{% url 'articles:post_list_by_category' category_slug='vodosnabzhenie' %}"><p>Все услуги</p></a>
+  </button>
+</div>
+<div class="news_index_main uslugi_vodosnab">
+
+  {% for post in vodosnab %}
+  <div class="news_item_main">
+    <div class="news_item_title">
+      <p><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></p>
+    </div>
+    {% if post.image %}
+    <a href="{{ post.get_absolute_url }}">
+      <div class="vodosnab_item_img">
+        <img src="{{ post.image.url }}" alt="{{ post.title }}">
+      </div>
+    </a>
+
+    
+    {% endif %}
+    <div class="vodosnab_btn">
+      <button class="btn_mini">
+        <a href="{{ post.get_absolute_url }}">
+          <p>Подробнее</p>
+        </a>
+      </button>
+
+    </div>
+
+  </div>
+  {% endfor %}
+</div>

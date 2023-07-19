@@ -1,0 +1,9 @@
+<div class="breadcrumbs_main container">
+  <ul>
+    <li><a href="#">Каталог продукции</a></li>
+    {% for ancestor in object.get_ancestors %}
+    <li><a href="{{ ancestor.get_absolute_url }}">{{ ancestor.name }}</a></li>
+    {% endfor %}
+    <li>{{ object.name }}</li>
+  </ul>
+</div>

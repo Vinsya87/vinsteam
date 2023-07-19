@@ -1,0 +1,12 @@
+{% extends "admin/change_form.html" %}
+
+{% block object-tools %}
+    {{ block.super }}
+    {% if opts.model_name == 'product' %}
+    {% if original and original.slug %}
+        <div style="padding: 10px 0;">
+            <a target="_blank" href="{% url 'catalog_url:product_detail' slug=original.slug %}">Ссылка на страницу продукта</a>
+        </div>
+    {% endif %}
+{% endif %}
+{% endblock %}

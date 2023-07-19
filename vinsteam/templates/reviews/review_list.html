@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <div class="post_article">
+    <div class="reviews_top_main">
+      <h1>Отзывы</h1>
+      <div class="review_write_btn ">
+        <p class="btn_mini">Написать отзыв</p>
+      </div>
+    </div>
+
+    {% for post in posts %}
+      <div class="post_article_item post_article_item_3">
+        {% if post.image %}
+        <a href="{{ post.get_absolute_url }} " class="post_item_image">
+          <img src="{{ post.image.url }}" alt="{{ post.title }}">
+      </a>
+      {% endif %}
+        <h2><a href="{{ post.get_absolute_url }}">{{ post.name }}</a></h2>
+        <p class="review_date">
+          {{ post.created_at }}
+        </p>
+        <p class="desc_art_post">
+          {{ post.text }}
+        </p>
+      </div>
+    {% endfor %}
+  </div>
+
+</div>
+<div class="modal_reg modal_review" id="review_full">
+  <div class="modal_dialog" role="document">
+    <div class="modal_content">
+      <div class="close_modal">
+        <span>&times;</span>
+      </div>
+      <div class="modal_header">
+        <h5 class="modal_title" id="authModalLabel">Весь отзыв</h5>
+      </div>
+      <div class="modal_body">
+        <div class="review_header">
+          <span class="review_date">{{ review.created_at|date:"d.m.Y" }}</span>
+          <span class="review_name">{{ review.name }}</span>
+        </div>
+        <div class="review_text">{{ review.text }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

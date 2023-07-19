@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+{% load thumbnail %}
+{% load cache %}
+
+<div class="content_main">
+  {% cache 80000 slider_main %}
+
+    {% include 'includes/slider_main.html' %}
+
+
+
+
+  <div class="container">
+
+
+
+
+    {% for block in content_blocks %}
+    {% if block.number == 101 %}
+    <div class="{{ block.css_class }}" id="{{ block.div_id }}">
+      {{ block.content_ckeditor|safe }}
+
+    </div>
+    <div class="post_main_btn">
+      <button class="btn_mini btn_all">
+        <p>Читать далее</p>
+      </button>
+      <button class="btn_mini btn_no">
+        <a href="#{{ block.div_id }}">
+          <p>Свернуть</p>
+        </a>
+      </button>
+    </div>
+    {% elif block.number == 102 %}
+    <div class="{{ block.css_class }}" id="{{ block.div_id }}">
+      {{ block.content_ckeditor|safe }}
+    </div>
+
+    {% elif block.number == 103 %}
+<div class="news_title post_103_top">
+  <div class="title_103 title_index">
+    <h2>Бурение под ключ в Томске и областях</h2>
+  </div>
+  <button class="btn_mini">
+    <a href="/post/burenie-pod-klyuch/"><p>Подробнее</p></a>
+  </button>
+</div>
+    <div class="{{ block.css_class }}">
+      {{ block.content_ckeditor|safe }}
+    </div>
+    {% endif %}
+    {% endfor %}
+
+    {% include 'articles/posts_article.html' %}
+  </div>
+
+  {% include 'articles/posts_special.html' %}
+
+  <div class="container">
+
+    {% include 'articles/posts_vodosnab.html' %}
+
+    <div class="reviews_main">
+      <div class="special_title news_title">
+        <div class="title_index">
+          <h2>Отзывы наших клиентов</h2>
+        </div>
+        <button class="btn_mini">
+          <a href="{% url 'reviews:reviews_list' %}">
+            <p>Все отзывы</p>
+          </a>
+        </button>
+      </div>
+
+
+      <ul class="reviews_ul">
+        {% for review in enabled_reviews %}
+        <li class="reviews_li">
+          <div class="review_header">
+            <span class="review_date">{{ review.created_at|date:"d.m.Y" }}</span>
+            <span class="review_name">{{ review.name }}</span>
+
+          </div>
+          <div class="review_text">{{ review.text|truncatechars:250 }}</div>
+          {% if review.text_length > 250 %}
+          <div class="show_more_review news_btn" data-review-id="{{ review.id }}">
+            <p>Весь отзыв</p>
+          </div>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+      <div class="review_write_btn_main">
+        <div class="review_write_btn ">
+          <p class="btn_mini">Написать отзыв</p>
+        </div>
+      </div>
+
+
+      {% if enabled_reviews %}
+      <div class="modal_reg modal_review" id="review_full">
+        <div class="modal_dialog" role="document">
+          <div class="modal_content">
+            <div class="close_modal">
+              <span>&times;</span>
+            </div>
+            <div class="modal_header">
+              <h5 class="modal_title" id="authModalLabel">Весь отзыв</h5>
+            </div>
+            <div class="modal_body">
+              <div class="review_header">
+                <span class="review_date">{{ review.created_at|date:"d.m.Y" }}</span>
+                <span class="review_name">{{ review.name }}</span>
+              </div>
+              <div class="review_text">{{ review.text }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    <!-- Модальное показать весь отзыв -->
+
+
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+{% endcache %}
+
+{% endblock %}

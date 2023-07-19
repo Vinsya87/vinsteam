@@ -1,0 +1,39 @@
+<div class="special_index_main_top">
+  <div class="container">
+    <div class="special_title news_title">
+      <div class="title_index">
+        <h2>Обсустройство скважин</h2>
+      </div>
+      <button class="btn_mini">
+        <a href="{% url 'articles:post_list_by_category' category_slug='obustrojstvo' %}">
+          <p>Все работы</p>
+        </a>
+      </button>
+    </div>
+    <div class="special_index_main uslugi_main">
+    
+      {% for post in special %}
+      <div class="special_item_main">
+        <div class="special_item_title">
+          <p><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></p>
+        </div>
+        {% if post.image %}
+        <a href="{{ post.get_absolute_url }} " class="special_item_image">
+          <img src="{{ post.image.url }}" alt="{{ post.title }}">
+        </a>
+        {% endif %}
+        <div class="special_item_desc_main">
+          
+          <div class="special_item_desc">
+            {{ post.main_content_block.content_ckeditor|safe }}
+          </div>
+          <div class="write_me special_btn">
+            <p>Узнать цену</p>
+          </div>
+        </div>
+    
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
